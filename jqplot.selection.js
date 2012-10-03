@@ -30,8 +30,9 @@
         this.selection = new $.jqplot.Selection();
         options = options || {};
         $.extend(true, this.selection,
-                { selectedMarkerOptions: { color : this.color } },
-                seriesDefaults.selection,
+        		{ selectedMarkerOptions: options.markerOptions },
+        		{ selectedMarkerOptions: { color : this.color } },
+        		seriesDefaults.selection,
                 options.selection);
         this.selection.renderer.init.call(this.selection, null);
         this.selection.markerRenderer.init.call(this.selection.markerRenderer, this.selection.selectedMarkerOptions);
