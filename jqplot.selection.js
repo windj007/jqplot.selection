@@ -54,34 +54,51 @@
     function subscribeEvents(plot, data, options) {
         this.target.bind('jqplotDataClick', $.proxy(onPointClick, this));
         this.togglePoint = $.proxy(togglePoint, this);
+        this.togglePointSilently = $.proxy(togglePointSilently, this);
     }
     
     // called within scope of plot object
     function onPointClick(ev, seriesIndex, pointIndex, data) {
         this.togglePoint(seriesIndex, pointIndex);
     }
-    
+
+    // called within scope of plot object
+    // triggers events
+    // returns new state of point (true means point is selected)
     function togglePoint(seriesIndex, pointIndex) {
+    	var series = this.series[seriesIndex];
+    	var args = [seriesIndex, pointIndex];
+        if (togglePointSilently.call(this, seriesIndex, pointIndex)) { // the point is selected now
+            if (series.selection.onSelect)
+                series.selection.onSelect.apply(this, args);
+            this.target.trigger('jqplotPointSelected', args);
+            return true;
+        } else {
+           
+            if (series.selection.onDeselect)
+                series.selection.onDeselect.apply(this, args);
+            this.target.trigger('jqplotPointDeselected', args);
+            return false;
+        }
+    }
+    
+    // called within scope of plot object
+    // does not trigger events
+    // returns new state of point (true means point is selected)
+    function togglePointSilently(seriesIndex, pointIndex) {
         var series = this.series[seriesIndex];
         if (!series.selection || !series.selection.show)
             return;
         var found_idx = series.selection.selectedPoints.indexOf(pointIndex);
         
-        var args = [seriesIndex, pointIndex];
         if (found_idx == -1) { // has not been selected before
             series.selection.selectedPoints.push(pointIndex);
             this.drawSeries({}, seriesIndex);
-            
-            if (series.selection.onSelect)
-                series.selection.onSelect.apply(this, args);
-            this.target.trigger('jqplotPointSelected', args);
+            return true;
         } else {
             series.selection.selectedPoints.splice(found_idx, 1);
             this.drawSeries({}, seriesIndex);
-            
-            if (series.selection.onDeselect)
-                series.selection.onDeselect.apply(this, args);
-            this.target.trigger('jqplotPointDeselected', args);
+            return false;
         }
     }
 
