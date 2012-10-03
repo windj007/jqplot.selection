@@ -29,8 +29,7 @@
     function parseSelectionOptions (target, data, seriesDefaults, options, plot) {
         this.selection = new $.jqplot.Selection();
         options = options || {};
-        $.extend(true, this.selection, 
-                { selectedMarkerOptions: options.markerOptions },
+        $.extend(true, this.selection,
                 { selectedMarkerOptions: { color : this.color } },
                 seriesDefaults.selection,
                 options.selection);
