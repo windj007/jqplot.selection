@@ -13,9 +13,7 @@
     jQuery(document).ready(function($) {
         var plot1 = $.jqplot('chart1', [[[1, 2], [1.5, 3], [2.1, 1]], [[1, 1.1], [1.3, 2.2], [2.3, 3]], [[1, 5], [3, 2], [3.5, 3]]], {
             seriesDefaults: {
-    			selection: {
-    			    show: true
-    			}
+    			
             },
             series : [
             	{
@@ -23,14 +21,15 @@
             	        style: "filledSquare"
             	    },
             	    selection: {
+            	    	show: true
             	    }
             	},
             	{
+            		selection: {
+        			    show: true
+        			}
             	},
             	{
-                	selection: {
-                	    show: false
-                	}
             	}
             ]
        	});
