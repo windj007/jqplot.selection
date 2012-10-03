@@ -67,14 +67,17 @@
     // returns new state of point (true means point is selected)
     function togglePoint(seriesIndex, pointIndex) {
     	var series = this.series[seriesIndex];
-    	var args = [seriesIndex, pointIndex];
-        if (togglePointSilently.call(this, seriesIndex, pointIndex)) { // the point is selected now
+    	
+    	var selectedNow = togglePointSilently.call(this, seriesIndex, pointIndex);
+    	var args = [seriesIndex, pointIndex, selectedNow];
+    	
+        if (selectedNow) { // the point is selected now
             if (series.selection.onSelect)
                 series.selection.onSelect.apply(this, args);
             this.target.trigger('jqplotPointSelected', args);
             return true;
         } else {
-           
+        	var args = [seriesIndex, pointIndex, false];
             if (series.selection.onDeselect)
                 series.selection.onDeselect.apply(this, args);
             this.target.trigger('jqplotPointDeselected', args);

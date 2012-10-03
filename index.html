@@ -33,11 +33,11 @@
             	}
             ]
        	});
-        $('#chart1').bind('jqplotPointSelected', function (event, seriesIndex, pointIndex) {
-           	alert("jq event selected: " + [seriesIndex, pointIndex].toString());
+        $('#chart1').bind('jqplotPointSelected', function (event, seriesIndex, pointIndex, selectedNow) {
+           	alert("jq event selected: " + [seriesIndex, pointIndex, selectedNow].toString());
         });
-        $('#chart1').bind('jqplotPointDeselected', function (event, seriesIndex, pointIndex) {
-           	alert("jq event deselected: " + [seriesIndex, pointIndex].toString());
+        $('#chart1').bind('jqplotPointDeselected', function (event, seriesIndex, pointIndex, selectedNow) {
+           	alert("jq event deselected: " + [seriesIndex, pointIndex, selectedNow].toString());
         });
         plot1.togglePoint(1, 0);
         plot1.togglePointSilently(1, 1);
