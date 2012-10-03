@@ -1,0 +1,9 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#chart1 {
+	width: 450px;
+	height: 300px;
+}
