@@ -3,3 +3,5 @@ Suvorov Roman windj007@gmail.com (c) 2012
 This is my first attempt to create a plugin to jqplot.
 The plugin being developed is to allow user to select data points on charts.
 When a data point is selected it's added to the internal list (that can be accessed through javascript) and highlighted on the plot.
+
+Though the plugin isn't documented well at the moment it's in working state (and I use it in production).

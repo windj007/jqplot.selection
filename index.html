@@ -21,7 +21,15 @@
             	        style: "filledSquare"
             	    },
             	    selection: {
-            	    	show: true
+            	    	show: true,
+            	    	onSelect: function (event, seriesIndex, pointIndex, selectedNow) {
+            	        	$("#log").append("<p>Selected point at " + pointIndex + " from series "
+            	        			+ seriesIndex + "; new state is " + selectedNow + " (series-specific handler)</p>");
+            	        },
+            	        onDeselect: function (event, seriesIndex, pointIndex, selectedNow) {
+            	        	$("#log").append("<p>Deselected point at " + pointIndex + " from series "
+            	        			+ seriesIndex + "; new state is " + selectedNow + " (series-specific handler)</p>");
+            	        }
             	    }
             	},
             	{
@@ -30,7 +38,7 @@
         			    show: true
         			},
             		markerOptions: {
-            			
+            			color : "blue"
             		}
             	},
             	{
@@ -38,17 +46,34 @@
             ]
        	});
         $('#chart1').bind('jqplotPointSelected', function (event, seriesIndex, pointIndex, selectedNow) {
-           	alert("jq event selected: " + [seriesIndex, pointIndex, selectedNow].toString());
+        	$("#log").append("<p>Selected point at " + pointIndex + " from series " + seriesIndex
+        			+ "; new state is " + selectedNow + " (global handler)</p>");
         });
         $('#chart1').bind('jqplotPointDeselected', function (event, seriesIndex, pointIndex, selectedNow) {
-           	alert("jq event deselected: " + [seriesIndex, pointIndex, selectedNow].toString());
+        	$("#log").append("<p>Deselected point at " + pointIndex + " from series " + seriesIndex
+        			+ "; new state is " + selectedNow + " (global handler)</p>");
         });
-        plot1.togglePoint(1, 0);
-        plot1.togglePointSilently(1, 1);
+        
+        $('#toggleLoudly').click(function () {
+        	plot1.togglePoint(1, 0);
+        });
+        
+        $('#toggleSilently').click(function () {
+        	plot1.togglePointSilently(1, 1);
+        });
     });
 </script>
 </head>
 <body>
-	<div id="chart1"></div>
+	<div id="layout">
+		<div id="chart1" class="layout-element"></div>
+		<div id="controls" class="layout-element">
+			<a href="javascript:void(0)" id="toggleLoudly">Toggle point</a>
+			<a href="javascript:void(0)" id="toggleSilently">Toggle point silently</a>
+		</div>
+		<div id="log" class="layout-element">
+			<p>Here the events will be logged:</p>
+		</div>
+	</div>
 </body>
 </html>

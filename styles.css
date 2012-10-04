@@ -3,7 +3,31 @@ body {
 	padding: 0px;
 }
 
+#layout {
+	width: 600px;
+	margin: 20px auto;
+}
+
+#layout .layout-element {
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	border: 1px solid #ECECF0;
+	border-bottom: none;
+}
+
 #chart1 {
-	width: 450px;
-	height: 300px;
+	height: 400px;
+}
+
+#controls {
+	
+}
+
+#layout #log {
+	border-bottom: 1px solid #ECECF0;
+}
+
+#log p {
+	margin: 2px;
 }

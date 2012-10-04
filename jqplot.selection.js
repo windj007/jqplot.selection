@@ -1,23 +1,42 @@
+/**
+ * Suvorov Roman windj007@gmail.com (c) 2012
+ * 
+ */
 (function($) {
+	/**
+	 * Constructor of class Selection.
+	 * An instance of this class is added to every series object.
+	 * It stores all the settings for selection points that belongs to the series.
+	 *  
+	 * @returns {$.jqplot.Selection}
+	 */
     $.jqplot.Selection = function() {
 
+    	// whether to enable data points' selection
         this.show = $.jqplot.config.enablePlugins;
 
+        // renderer to use for drawing selection
+        // commonly it must not be changed
+        // (to say truth I suppose that it isn't needed at all)
         this.renderer = new $.jqplot.LineRenderer();
         this.rendererOptions = {
                 showLine : false,
                 showMarker : true
             };
 
+        // renderer to use for drawing selected data points
         this.markerRenderer = new $.jqplot.MarkerRenderer();
+        // default parameters for drawing selected data points
         this.selectedMarkerOptions = {
                 size: 15
         };
 
-        // indices of selected points in series.data array 
+        // indices of selected points in series.data array
         this.selectedPoints = [];
 
+        // reference to a function (event handler) that is called when a point is selected
         this.onSelect = null;
+        // reference to a function (event handler) that is called when a point is deselected 
         this.onDeselect = null;
     };
     
@@ -34,7 +53,7 @@
         		{ selectedMarkerOptions: { color : this.color } },
         		seriesDefaults.selection,
                 options.selection);
-        this.selection.renderer.init.call(this.selection, null);
+        this.selection.renderer.init.call(this.selection, null); // maybe it's enough for us to use markerRenderer only?
         this.selection.markerRenderer.init.call(this.selection.markerRenderer, this.selection.selectedMarkerOptions);
     }
     
@@ -45,7 +64,7 @@
 
         if (options.show) {
             var data = this.data;
-            var points = $.map(options.selectedPoints, function (idx) { return [data[idx]]; });
+            var points = $.map(options.selectedPoints, function (idx) { return [data[idx]]; }); // map indices to points
             var gridData = this.renderer.makeGridData.call(this, points);
             this.selection.renderer.draw.call(this.selection, sctx, gridData, {});
         }
@@ -54,6 +73,7 @@
     // called within scope of plot object
     function subscribeEvents(plot, data, options) {
         this.target.bind('jqplotDataClick', $.proxy(onPointClick, this));
+        // add to jqplot object methods for selection
         this.togglePoint = $.proxy(togglePoint, this);
         this.togglePointSilently = $.proxy(togglePointSilently, this);
     }
