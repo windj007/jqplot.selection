@@ -13,14 +13,34 @@
     jQuery(document).ready(function($) {
         var plot1 = $.jqplot('chart1', [[[1, 2], [1.5, 3], [2.1, 1]], [[1, 1.1], [1.3, 2.2], [2.3, 3]], [[1, 5], [3, 2], [3.5, 3]]], {
             seriesDefaults: {
-    			
+            	selection: { // parameters that will be applied to all series (can be overrided in series.selection)
+            		// whether to enable data points' selection
+            		// 
+                    // this.show = false;
+
+                    // renderer to use for drawing selected data points
+                    // this.markerRenderer = new $.jqplot.MarkerRenderer();
+                    // default parameters for drawing selected data points
+                    //
+                    // this.selectedMarkerOptions = {
+                    //        size: 15
+                    // };
+
+                    // reference to a function (event handler) that is called when a point is selected
+                    //
+                    // this.onSelect = null;
+                    
+                    // reference to a function (event handler) that is called when a point is deselected
+                    // 
+                    // this.onDeselect = null;
+            	}
             },
             series : [
             	{
-            	    markerOptions: {
+            	    markerOptions: { // selection will use markerOptions if defined
             	        style: "filledSquare"
             	    },
-            	    selection: {
+            	    selection: { // series-specific selection parameters (format the same as seriesDefaults.selection)
             	    	show: true,
             	    	onSelect: function (event, seriesIndex, pointIndex, selectedNow) {
             	        	$("#log").append("<p>Selected point at " + pointIndex + " from series "
@@ -45,6 +65,8 @@
             	}
             ]
        	});
+
+        // per-chart events (can be attached anytime)
         $('#chart1').bind('jqplotPointSelected', function (event, seriesIndex, pointIndex, selectedNow) {
         	$("#log").append("<p>Selected point at " + pointIndex + " from series " + seriesIndex
         			+ "; new state is " + selectedNow + " (global handler)</p>");
@@ -55,11 +77,10 @@
         });
         
         $('#toggleLoudly').click(function () {
-        	plot1.togglePoint(1, 0);
+        	plot1.togglePoint(1, 0); // toggle point at index 0 from series 1 (triggers events)
         });
-        
         $('#toggleSilently').click(function () {
-        	plot1.togglePointSilently(1, 1);
+        	plot1.togglePointSilently(1, 1); // toggle point at index 1 from series 1 (does not trigger events)
         });
     });
 </script>
