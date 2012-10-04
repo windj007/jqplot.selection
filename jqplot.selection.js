@@ -88,8 +88,10 @@
     // returns new state of point (true means point is selected)
     function togglePoint(seriesIndex, pointIndex) {
     	var series = this.series[seriesIndex];
-    	
-    	var selectedNow = togglePointSilently.call(this, seriesIndex, pointIndex);
+        if (!series.selection || !series.selection.show)
+            return false;
+        
+    	var selectedNow = togglePointImpl.call(this, seriesIndex, pointIndex);
     	var args = [seriesIndex, pointIndex, selectedNow];
     	
         if (selectedNow) { // the point is selected now
@@ -112,8 +114,17 @@
     function togglePointSilently(seriesIndex, pointIndex) {
         var series = this.series[seriesIndex];
         if (!series.selection || !series.selection.show)
-            return;
-        var found_idx = series.selection.selectedPoints.indexOf(pointIndex);
+            return false;
+        
+        return togglePointImpl.call(this, seriesIndex, pointIndex);
+    }
+    
+    // called within scope of plot object
+    // internal version without any checks
+    // returns new state of point (true means point is selected)
+    function togglePointImpl(seriesIndex, pointIndex) {
+    	var series = this.series[seriesIndex];
+    	var found_idx = series.selection.selectedPoints.indexOf(pointIndex);
         
         if (found_idx == -1) { // has not been selected before
             series.selection.selectedPoints.push(pointIndex);
