@@ -5,3 +5,5 @@ The plugin being developed is to allow user to select data points on charts.
 When a data point is selected it's added to the internal list (that can be accessed through javascript) and highlighted on the plot.
 
 Though the plugin isn't documented well at the moment it's in working state (and I use it in production).
+
+2016-01-14 DISCLAIMER: I have not made any changes to this plugin (written initially for jqPlot 1.0.0b2_r1012 and jQuery 1.8.2, but it seem to work with newer versions. MIT License.
